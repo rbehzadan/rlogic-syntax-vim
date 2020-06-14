@@ -3,58 +3,55 @@
 " Maintainer:   Reza Behzadan <rbehzadan@gmail.com>
 " Last Change:  '2019-12-26'
 " Version:      1
-" URL:          https://github.com/rbehzadan/rlogic-syntax-vim 
+" URL:          https://github.com/rbehzadan/rlogic-vim 
 
-" Load Once: {{{
+" Load Once: {{{1
 if exists("b:current_syntax")
   finish
 endif
-" }}}
-" Keywords: {{{
+
+" Keywords: {{{1
+syntax keyword rlogicReserved not true false unknown
+syntax keyword rlogicFunction if iff and or not assert infer
+syntax keyword rlogicFunction expand postulation
+
+" Comment: {{{1
 syntax keyword rlogicTodo contained TODO FIXME XXX NOTE
-syntax region rlogicParenBlock start='(' end=')'
-syntax keyword rlogicReserved not true false unknown contained containedin=rlogicParenBlock
-syntax keyword rlogicFunction if iff and or not contained containedin=rlogicParenBlock
+syntax match rlogicComment "\v;.*$" contains=rlogicTodo
+setlocal commentstring=;\ %s " for vim-commentary
 
-" }}}
-" Comment: {{{
-" syntax match rlogicComment "\v;.*$" contains=rlogicTodo
-" syntax match rlogicComment ";.*$" contains=rlogicTodo
-syntax match rlogicComment "\v;.*$"
+" Operators: {{{1
+syntax match rlogicOperator "\~"
+syntax match rlogicOperator "+"
+syntax match rlogicOperator "-"
+syntax match rlogicOperator "*"
+syntax match rlogicOperator "/"
+syntax match rlogicOperator "%"
+syntax match rlogicOperator "\^"
+syntax match rlogicOperator "="
+syntax match rlogicOperator "=="
+syntax match rlogicOperator "!="
+syntax match rlogicOperator ":="
+syntax match rlogicOperator "<"
+syntax match rlogicOperator ">"
+syntax match rlogicOperator "<="
+syntax match rlogicOperator ">="
 
-" }}}
-" Number: {{{
+" Number: {{{1
 syntax match rlogicNumber "\<-\=\(\.\d\+\|\d\+\(\.\d*\)\=\)\([dDeEfFlL][-+]\=\d\+\)\=\>"
 syntax match rlogicNumber "\<-\=\(\d\+/\d\+\)\>"
-" }}}
-" String: {{{
+
+" String: {{{1
 syntax region rlogicString start=/\v"/ skip=/\v\\./ end=/\v"/
-" }}}
-" Operators: {{{
-syntax match rlogicOperator "\~" contained containedin=rlogicParenBlock
-syntax match rlogicOperator "+" contained containedin=rlogicParenBlock
-syntax match rlogicOperator "-" contained containedin=rlogicParenBlock
-syntax match rlogicOperator "*" contained containedin=rlogicParenBlock
-syntax match rlogicOperator "/" contained containedin=rlogicParenBlock
-syntax match rlogicOperator "%" contained containedin=rlogicParenBlock
-syntax match rlogicOperator "\^" contained containedin=rlogicParenBlock
-syntax match rlogicOperator "=" contained containedin=rlogicParenBlock
-syntax match rlogicOperator "!=" contained containedin=rlogicParenBlock
-syntax match rlogicOperator ":=" contained containedin=rlogicParenBlock
-syntax match rlogicOperator "<" contained containedin=rlogicParenBlock
-syntax match rlogicOperator ">" contained containedin=rlogicParenBlock
-syntax match rlogicOperator "<=" contained containedin=rlogicParenBlock
-syntax match rlogicOperator ">=" contained containedin=rlogicParenBlock
-" }}}
 
+" Variable: {{{1
+syntax match rlogicVariable "?\<\(\w\|[-'@#$&!]\|_\|:\)\+\>"
+syntax match rlogicAnonVar "\<_\>"
 
-syntax match rlogicVariable "?\<\(\w\|[-'@#$&!]\|_\|:\)\+\>" contained containedin=rlogicParenBlock
-syntax match rlogicAtom "\<\(\w\|[-'@#$&!]\|_\|:\)\+\>" contained containedin=rlogicParenBlock
-syntax match rlogicAnonVar "\<_\>" contained containedin=rlogicParenBlock
+" Atom: {{{1
+syntax match rlogicAtom "\<\(\w\|[-'@#$&!]\|_\|:\)\+\>"
 
-
-
-
+" Highlighting Links: {{{1
 highlight link rlogicTodo Todo
 highlight link rlogicFunction Function
 highlight link rlogicOperator Operator
@@ -66,4 +63,7 @@ highlight link rlogicAnonVar Constant
 highlight link rlogicAtom Normal
 highlight link rlogicReserved Type
 
+" Definitions {{{1
+setlocal tabstop=2
+setlocal shiftwidth=2
 let b:current_syntax = "rlogic"
